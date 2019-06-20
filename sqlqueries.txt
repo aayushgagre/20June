@@ -1,0 +1,587 @@
+select * from tab;
+-----give list of tables
+
+select * from departments;
+
+
+---------------------------------
+select * from departments;
+
+----------------------------------
+
+select department_id, department_name from departments;
+
+--------------------------------------------------------------------
+
+create table account
+(
+aid number(8) primary key, 
+mobileno number(10) unique not null,
+accountholder varchar2(30) not null, 
+balance number(8,2) check(balance>=1000.00)
+);
+
+
+insert into account values(100,9999999999,'King',24000.00);
+
+
+**create, alter and drop which are ddl performs automatically commit command;
+
+
+-------------------------------------------------------------------------
+
+
+SQL*Plus: Release 11.2.0.2.0 Production on Thu Jun 20 09:26:55 2019
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+Enter user-name: hr
+Enter password:
+
+Connected to:
+Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+
+SQL> select department_id, department_name from departments;
+
+DEPARTMENT_ID DEPARTMENT_NAME
+------------- ------------------------------
+           10 Administration
+           20 Marketing
+           30 Purchasing
+           40 Human Resources
+           50 Shipping
+           60 IT
+           70 Public Relations
+           80 Sales
+           90 Executive
+          100 Finance
+          110 Accounting
+
+DEPARTMENT_ID DEPARTMENT_NAME
+------------- ------------------------------
+          120 Treasury
+          130 Corporate Tax
+          140 Control And Credit
+          150 Shareholder Services
+          160 Benefits
+          170 Manufacturing
+          180 Construction
+          190 Contracting
+          200 Operations
+          210 IT Support
+          220 NOC
+
+DEPARTMENT_ID DEPARTMENT_NAME
+------------- ------------------------------
+          230 IT Helpdesk
+          240 Government Sales
+          250 Retail Sales
+          260 Recruiting
+          270 Payroll
+
+27 rows selected.
+
+SQL> desc employees;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+
+ EMPLOYEE_ID                               NOT NULL NUMBER(6)
+ FIRST_NAME                                         VARCHAR2(20)
+ LAST_NAME                                 NOT NULL VARCHAR2(25)
+ EMAIL                                     NOT NULL VARCHAR2(25)
+ PHONE_NUMBER                                       VARCHAR2(20)
+ HIRE_DATE                                 NOT NULL DATE
+ JOB_ID                                    NOT NULL VARCHAR2(10)
+ SALARY                                             NUMBER(8,2)
+ COMMISSION_PCT                                     NUMBER(2,2)
+ MANAGER_ID                                         NUMBER(6)
+ DEPARTMENT_ID                                      NUMBER(4)
+
+SQL>
+SQL> create table account( aid number(8) primary key, mobileno number(10) unique
+ not null,accountholder varchar2(30) not null, balance number(8,2) check(balance
+>=1000.00) default 1000.00);
+create table account( aid number(8) primary key, mobileno number(10) unique not
+null,accountholder varchar2(30) not null, balance number(8,2) check(balance>=100
+0.00) default 1000.00)
+
+
+      *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL>
+SQL> create table account( aid number(8) primary key, mobileno number(10) unique
+ not null,accountholder varchar2(30) not null, balance number(8,2) check(balance
+>=1000.00)) ;
+
+Table created.
+
+SQL> desc account;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+
+ AID                                       NOT NULL NUMBER(8)
+ MOBILENO                                  NOT NULL NUMBER(10)
+ ACCOUNTHOLDER                             NOT NULL VARCHAR2(30)
+ BALANCE                                            NUMBER(8,2)
+
+SQL> insert into account values(100,9999999999,'King',24000.00);
+
+1 row created.
+
+SQL> savepoint A;
+
+Savepoint created.
+
+SQL> insert into account values(101,9999999994,'Raja',50000.00);
+
+1 row created.
+
+SQL> insert into account values(102,9999999222,'Ram',33000.00);
+
+1 row created.
+
+SQL> savepoint B;
+
+Savepoint created.
+
+SQL> update account set balance=30000 where aid=100;
+
+1 row updated.
+
+SQL> update account set accountholder='King Khan' where aid=100;
+
+1 row updated.select s
+
+SQL> select * from account;
+
+       AID   MOBILENO ACCOUNTHOLDER                     BALANCE
+---------- ---------- ------------------------------ ----------
+       100 9999999999 King Khan                           30000
+       101 9999999994 Raja                                50000
+       102 9999999222 Ram                                 33000
+
+SQL> delete from account;
+
+3 rows deleted.
+
+SQL> rollback to B;
+
+Rollback complete.
+
+SQL> select * from account;
+
+       AID   MOBILENO ACCOUNTHOLDER                     BALANCE
+---------- ---------- ------------------------------ ----------
+       100 9999999999 King                                24000
+       101 9999999994 Raja                                50000
+       102 9999999222 Ram                                 33000
+
+SQL> commit;
+
+Commit complete.
+
+SQL> insert into account values(102,9999999222,'Ram',33000.00);
+insert into account values(102,9999999222,'Ram',33000.00)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HR.SYS_C007558) violated
+
+----------------------------------------------------------------------------
+
+rr refers to previous century
+yy refers to current century
+
+
+
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Abel                           11000             .3 11-MAY-04 SA_REP
+           80
+
+Hutton                          8800            .25 19-MAR-05 SA_REP
+           80
+
+Taylor                          8600             .2 24-MAR-06 SA_REP
+           80
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Livingston                      8400             .2 23-APR-06 SA_REP
+           80
+
+Grant                           7000            .15 24-MAY-07 SA_REP
+
+
+Johnson                         6200             .1 04-JAN-08 SA_REP
+           80
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Taylor                          3200                24-JAN-06 SH_CLERK
+           50
+
+Fleaur                          3100                23-FEB-06 SH_CLERK
+           50
+
+Sullivan                        2500                21-JUN-07 SH_CLERK
+           50
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Geoni                           2800                03-FEB-08 SH_CLERK
+           50
+
+Sarchand                        4200                27-JAN-04 SH_CLERK
+           50
+
+Bull                            4100                20-FEB-05 SH_CLERK
+           50
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Dellinger                       3400                24-JUN-06 SH_CLERK
+           50
+
+Cabrio                          3000                07-FEB-07 SH_CLERK
+           50
+
+Chung                           3800                14-JUN-05 SH_CLERK
+           50
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Dilly                           3600                13-AUG-05 SH_CLERK
+           50
+
+Gates                           2900                11-JUL-06 SH_CLERK
+           50
+
+Perkins                         2500                19-DEC-07 SH_CLERK
+           50
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Bell                            4000                04-FEB-04 SH_CLERK
+           50
+
+Everett                         3900                03-MAR-05 SH_CLERK
+           50
+
+McCain                          3200                01-JUL-06 SH_CLERK
+           50
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Jones                           2800                17-MAR-07 SH_CLERK
+           50
+
+Walsh                           3100                24-APR-06 SH_CLERK
+           50
+
+Feeney                          3000                23-MAY-06 SH_CLERK
+           50
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+OConnell                        2600                21-JUN-07 SH_CLERK
+           50
+
+Grant                           2600                13-JAN-08 SH_CLERK
+           50
+
+Whalen                          4400                17-SEP-03 AD_ASST
+           10
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Hartstein                      13000                17-FEB-04 MK_MAN
+           20
+
+Fay                             6000                17-AUG-05 MK_REP
+           20
+
+Mavris                          6500                07-JUN-02 HR_REP
+           40
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Baer                           10000                07-JUN-02 PR_REP
+           70
+
+Higgins                        12008                07-JUN-02 AC_MGR
+          110
+
+Gietz                           8300                07-JUN-02 AC_ACCOUNT
+          110
+
+
+96 rows selected.
+
+SQL> select last_name,
+  2  salary,
+  3  commission_pct,
+  4  hire_date,
+  5  job_id,
+  6  department_id
+  7  from employees
+  8  where salry between 10000 and 20000
+  9  order by job_id, salary;
+where salry between 10000 and 20000
+      *
+ERROR at line 8:
+ORA-00904: "SALRY": invalid identifier
+
+
+SQL> select last_name,
+  2  salary,
+  3  commission_pct,
+  4  hire_date,
+  5  job_id,
+  6  department_id
+  7  from employees
+  8  where salry between 10000 and 20000
+  9  order by job_id,salary;
+where salry between 10000 and 20000
+      *
+ERROR at line 8:
+ORA-00904: "SALRY": invalid identifier
+
+
+SQL> select last_name,
+  2  salary,
+  3  commission_pct,
+  4  hire_date,
+  5  job_id,
+  6  department_id
+  7  from employees
+  8  where salry between 10000 and 20000
+  9  order by job_id,salary;
+where salry between 10000 and 20000
+      *
+ERROR at line 8:
+ORA-00904: "SALRY": invalid identifier
+
+
+SQL> select last_name,
+  2  select last_name,
+  3
+SQL> select last_name,
+  2  salary,
+  3  commission_pct,
+  4  hire_date,
+  5  job_id,
+  6  department_id
+  7  from employees
+  8  where salary between 10000 and 20000
+  9  order by job_id,salary;
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Higgins                        12008                07-JUN-02 AC_MGR
+          110
+
+Kochhar                        17000                21-SEP-05 AD_VP
+           90
+
+De Haan                        17000                13-JAN-01 AD_VP
+           90
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Greenberg                      12008                17-AUG-02 FI_MGR
+          100
+
+Hartstein                      13000                17-FEB-04 MK_MAN
+           20
+
+Baer                           10000                07-JUN-02 PR_REP
+           70
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Raphaely                       11000                07-DEC-02 PU_MAN
+           30
+
+Zlotkey                        10500             .2 29-JAN-08 SA_MAN
+           80
+
+Cambrault                      11000             .3 15-OCT-07 SA_MAN
+           80
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Errazuriz                      12000             .3 10-MAR-05 SA_MAN
+           80
+
+Partners                       13500             .3 05-JAN-05 SA_MAN
+           80
+
+Russell                        14000             .4 01-OCT-04 SA_MAN
+           80
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Bloom                          10000             .2 23-MAR-06 SA_REP
+           80
+
+Tucker                         10000             .3 30-JAN-05 SA_REP
+           80
+
+King                           10000            .35 30-JAN-04 SA_REP
+           80
+
+
+LAST_NAME                     SALARY COMMISSION_PCT HIRE_DATE JOB_ID
+------------------------- ---------- -------------- --------- ----------
+DEPARTMENT_ID
+-------------
+Vishney                        10500            .25 11-NOV-05 SA_REP
+           80
+
+Abel                           11000             .3 11-MAY-04 SA_REP
+           80
+
+Ozer                           11500            .25 11-MAR-05 SA_REP
+           80
+
+
+18 rows selected.
+
+SQL>select last_name,
+  2  salary,
+  3  commission_pct,
+  4  hire_date,
+  5  job_id,
+  6  department_id
+  7  from employees
+  8  where hire_date between '01-jan-05' and '31-dec-08';
+
+
+
+select last_name, upper(last_name), lower(last_name) from employees
+
+
+
+
+
+
+
+select sum(salary) from employees;
+
+
+
+
+select sum(salary) totalsalary,
+	max(salary) as maxsalary,
+	min(salary) as "Min Salary",
+	count(salary) "Total Count",
+	avg(salary) AverageSalary
+ from employees;
+
+
+select count(*) as totalcount
+	from employees;
+
+
+select avg(commission_pct) as totalcount,
+count(commission_pct)
+from employees;
+
+
+
+
+
+**all group functions ignore null value
+
+select avg(nvl(commission_pct,0)) as totalcount,
+count(nvl(commission_pct,0))
+from employees;
+
+
+
+--------------------------------------------
+select sum(salary) totalsalary,
+count(salary)
+from employees
+group by department_id;
+
+----------------------------------------
+
+select department_id,sum(nvl(salary,0)) totalsalary,
+count(salary)
+from employees
+group by department_id;
+
+---------------------------------------------------------
+
+select department_id,job_id, sum(salary) as totalsalary,
+count(salary)
+from employees
+group by department_id, job_id
+order by department_id, job_id;
+
+-----------------------------------------------------------
+
+
+select department_id,job_id, sum(salary) as totalsalary,
+count(salary)
+from employees
+group by department_id, job_id
+having sum(salary)>=50000
+order by department_id, job_id;
+
+
+-------------------------------------------------------------
+
+select count(distinct department_id) from employees;
+
+---------------------------------------------------------------
+
